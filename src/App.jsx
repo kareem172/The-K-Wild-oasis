@@ -7,25 +7,41 @@ import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import PageNotFound from "./pages/PageNotFound";
-import GlobalStyles from './styles/GlobalStyles'
+import AppLayout from "./ui/Applayout";
+import GlobalStyles from "./styles/GlobalStyles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions:{
+      queries:{
+        staleTime: 1000 * 60 ,
+      },
+    },
+  });
+
   return (
     <>
-    <GlobalStyles />
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Navigate to="dashboard" />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="account" element={<Account />} />
-        <Route path="cabins" element={<Cabins />} />
-        <Route path="booking" element={<Bookings />} />
-        <Route path="login" element={<Login />} />
-        <Route path="sitting" element={<Settings />} />
-        <Route path="user" element={<Users />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <ReactQueryDevtools initialIsOpen={false} />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate to="dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="account" element={<Account />} />
+              <Route path="cabins" element={<Cabins />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="users" element={<Users />} />
+            </Route>
+            <Route path="login" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </>
   );
 }
