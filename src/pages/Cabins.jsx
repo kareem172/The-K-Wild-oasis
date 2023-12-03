@@ -11,13 +11,8 @@ import { useState } from "react";
 
 function Cabins() {
   const [showModal, setShowModal] = useState(false);
-  
 
-  const {
-    isLoading,
-    error,
-    data: cabins,
-  } = useQuery({
+  const { isLoading, data: cabins } = useQuery({
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
@@ -34,7 +29,7 @@ function Cabins() {
       <Row type="vertical">
         <CabinTable cabins={cabins} />
         <Button onClick={() => setShowModal((show) => !show)}>Add Cabin</Button>
-        {showModal && <CreateCabinForm/>}
+        {showModal && <CreateCabinForm />}
       </Row>
     </>
   );
