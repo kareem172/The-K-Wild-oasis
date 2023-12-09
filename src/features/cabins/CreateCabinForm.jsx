@@ -10,7 +10,7 @@ import FormField from "../../ui/FormField";
 
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabins } from "./useEditCabins";
-function CreateCabinForm({ editedCabin = {} }) {
+function CreateCabinForm({ editedCabin = {}, onCloseModal }) {
   const { id: editedId, ...dataToEdit } = editedCabin;
   const isEditingSession = Boolean(editedId);
   // We need to reset the form after a successful submission
@@ -34,19 +34,28 @@ function CreateCabinForm({ editedCabin = {} }) {
       editCabin(
         { editedData: { ...data, image }, id: editedId },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
         }
       );
     else
       createCabin(
         { ...data, image },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
         }
       );
   }
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormField label="Cabin name" error={errors.name?.message}>
         <Input
           type="text"
@@ -130,7 +139,11 @@ function CreateCabinForm({ editedCabin = {} }) {
 
       <FormField>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
@@ -143,6 +156,7 @@ function CreateCabinForm({ editedCabin = {} }) {
 
 CreateCabinForm.propTypes = {
   editedCabin: propTypes.object,
+  onCloseModal: propTypes.func,
 };
 
 export default CreateCabinForm;
