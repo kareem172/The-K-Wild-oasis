@@ -4,10 +4,16 @@ import propTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeteteCabin";
-import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import {
+  HiEllipsisVertical,
+  HiPencil,
+  HiSquare2Stack,
+  HiTrash,
+} from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
+import Menus from "../../ui/Menus";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -50,8 +56,8 @@ const Discount = styled.div`
 function CabinRow({ cabin }) {
   const { id, name, image, maxCapacity, regularPrice, discount } = cabin;
 
-  const { isDeleting, deleteCabin } = useDeleteCabin();
-  const { isCreating, createCabin } = useCreateCabin();
+  const { deleteCabin } = useDeleteCabin();
+  const { createCabin } = useCreateCabin();
 
   const handleDuplicate = () => {
     let duplicatedCabin = cabin;
@@ -71,25 +77,34 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
-          <button onClick={handleDuplicate} disabled={isCreating}>
-            <HiSquare2Stack />
-          </button>
-
           <Modal>
-            <Modal.Open opens="edit">
-              <button>
-                <HiPencil />
-              </button>
-            </Modal.Open>
+            <Menus.Menu>
+              <Menus.Toggle id={id}>
+                <HiEllipsisVertical />
+              </Menus.Toggle>
+
+              <Menus.List id={id}>
+                <Menus.Button
+                  onClick={handleDuplicate}
+                  icon={<HiSquare2Stack />}
+                >
+                  Duplicate
+                </Menus.Button>
+
+                <Modal.Open opens="edit">
+                  <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                </Modal.Open>
+
+                <Modal.Open opens="delete">
+                  <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                </Modal.Open>
+              </Menus.List>
+            </Menus.Menu>
+
             <Modal.Window name="edit">
               <CreateCabinForm editedCabin={cabin} />
             </Modal.Window>
 
-            <Modal.Open opens="delete">
-              <button disabled={isDeleting}>
-                <HiTrash />
-              </button>
-            </Modal.Open>
             <Modal.Window name="delete">
               <ConfirmDelete
                 resourceName="cabins"
