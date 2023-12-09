@@ -1,21 +1,18 @@
+import { useState } from "react";
+
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import Button from "../ui/Button";
 import Spinner from "../ui/Spinner";
-import { getCabins } from "../services/apiCabins";
-import { useQuery } from "@tanstack/react-query";
-
 import CabinTable from "../features/cabins/CabinTable";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
-import { useState } from "react";
+
+import { useCabins } from "../features/cabins/useCabins";
 
 function Cabins() {
   const [showModal, setShowModal] = useState(false);
 
-  const { isLoading, data: cabins } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: getCabins,
-  });
+  const { isLoading, data: cabins } = useCabins();
 
   if (isLoading) return <Spinner />;
 
