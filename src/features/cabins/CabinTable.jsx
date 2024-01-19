@@ -11,6 +11,7 @@ function CabinTable() {
 
   const [searchParams] = useSearchParams();
   const filter = searchParams.get("discount");
+  const sortBy = searchParams.get("sortBy");
   let filteredCabins = cabins;
   switch (filter) {
     case "noDiscount":
@@ -21,6 +22,20 @@ function CabinTable() {
       break;
     default:
       filteredCabins = cabins;
+  }
+  let sortedCabins = filteredCabins;
+  switch (sortBy) {
+    case "regularPrice":
+      sortedCabins = filteredCabins.sort((a, b) => a.regularPrice - b.regularPrice);
+      break;
+    case "maxCapacity":
+      sortedCabins = filteredCabins.sort((a, b) => a.maxCapacity - b.maxCapacity);
+      break;
+    case "name":
+      sortedCabins = filteredCabins.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    default:
+      sortedCabins = filteredCabins;
   }
 
   if (isLoading) return <Spinner />;
@@ -36,7 +51,7 @@ function CabinTable() {
           <div></div>
         </Table.Header>
         <Table.Body
-          data={filteredCabins}
+          data={sortedCabins}
           render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
         />
       </Table>
