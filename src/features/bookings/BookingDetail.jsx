@@ -7,11 +7,10 @@ import Tag from "../../ui/Tag";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
+import Spinner from "../../ui/Spinner";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
-import Spinner from "../../ui/Spinner";
-import { HiArrowDownOnSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 const HeadingGroup = styled.div`
@@ -50,17 +49,14 @@ function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
-        {status === "unconfirmed" && (
-          <Button
-            icon={<HiArrowDownOnSquare />}
-            onClick={() => navigate(`/checkIn/${booking.id}`)}
-          >
+        {booking.status === "unconfirmed" && (
+          <Button onClick={() => navigate(`/checkIn/${booking.id}`)}>
             Check in
           </Button>
         )}
+        <Button variation="secondary" onClick={moveBack}>
+          Back
+        </Button>
       </ButtonGroup>
     </>
   );
