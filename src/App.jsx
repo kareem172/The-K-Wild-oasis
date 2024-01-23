@@ -4,7 +4,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import GlobalStyles from "./styles/GlobalStyles";
 
-
 import Dashboard from "./pages/Dashboard";
 import Account from "./pages/Account";
 import Cabins from "./pages/Cabins";
@@ -16,6 +15,7 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/Applayout";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
   const queryClient = new QueryClient({
@@ -45,14 +45,20 @@ function App() {
             success: {
               duration: 3000,
             },
-            error:{
+            error: {
               duration: 5000,
-            }
+            },
           }}
         />
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="account" element={<Account />} />

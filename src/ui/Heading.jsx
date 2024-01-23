@@ -16,5 +16,11 @@ export default styled.h1`
     css`
       font-size: 1rem;
     `}
+    ${({ as }) =>
+    as === "h4" &&
+    css`
+      font-size: 2.5rem;
+      text-align: center;
+    `}
   border-radius: 1rem;
 `;
