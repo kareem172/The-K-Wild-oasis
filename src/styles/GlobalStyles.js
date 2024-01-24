@@ -113,6 +113,9 @@ html {
   font-size: 62.5%;
   background-color: var(--color-grey-0);
 }
+${'' /* html::-webkit-scrollbar {
+  background-color: var(--color-grey-0);
+} */}
 
 body {
   font-family: "Poppins", sans-serif;

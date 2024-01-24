@@ -13,10 +13,19 @@ const StyledAppLayout = styled.div`
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem 4.8rem 6.4rem;
-    border-left: 1px solid var(--color-grey-100);
-    border-top: 1px solid var(--color-grey-100);
-    border-radius:  1.6rem 0 0 0;
-
+  border-left: 1px solid var(--color-grey-100);
+  border-top: 1px solid var(--color-grey-100);
+  border-radius: 1.6rem 0 0 0;
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-grey-500);
+  }
+  &::-webkit-scrollbar {
+    width: 1.3rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-indigo-100);
+    border-radius: 2px;
+  }
   overflow-y: auto;
 `;
 
@@ -25,6 +34,7 @@ const Container = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+
   gap: 3.2rem;
 `;
 
