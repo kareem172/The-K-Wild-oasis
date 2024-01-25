@@ -34,7 +34,6 @@ function SignupForm() {
           type="text"
           disabled={isLoading}
           id="fullName"
-          disabled={isLoading}
           {...register("fullName", {
             required: "Full name is required",
           })}
